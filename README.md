@@ -14,8 +14,6 @@ A Python/ROS 2 implementation of a 15-state error-state Kalman filter (ESKF) for
 
 The nominal state is `(p, v, R, b_g, b_a)`, with 15 local error components `(δp, δv, δθ, δb_g, δb_a)`. IMU propagation integrates bias-corrected angular rate and acceleration, including NED gravity. Covariance propagation uses a first-order transition and the attitude-to-velocity block `−R[a−b_a]×`. A six-component GNSS position/velocity residual corrects the state; the covariance update uses Joseph form and an attitude reset Jacobian.
 
-One concrete debugging step was correcting elementwise multiplication in the attitude-to-velocity Jacobian to matrix multiplication (`-R @ hat(f)`). The earlier error produced unstable bias estimates in SITL.
-
 `px4_msgs`, PX4, and the Micro XRCE DDS Agent are external dependencies. They are not vendored here.
 
 ## Recorded mission
@@ -81,8 +79,4 @@ source install/setup.bash
 ros2 run px4_eskf eskf_node
 ```
 
-In separate sourced terminals, run `ros2 run px4_offboard_control offboard_control` for the waypoint mission and, optionally, `ros2 run px4_state_listener state_listener` for diagnostics. Start SITL and the DDS Agent before these nodes. The ESKF writes `eskf_vs_px4.csv` in its current directory, overwriting that name on each run. End-to-end setup commands should be verified on a clean machine before public release.
-
-## Before public release
-
-Replace placeholder maintainer email addresses with an address you want visible on GitHub. Verify the ROS 2/PX4 setup and note the tested versions. The package metadata declares Apache-2.0 and includes license files.
+In separate sourced terminals, run `ros2 run px4_offboard_control offboard_control` for the waypoint mission and, optionally, `ros2 run px4_state_listener state_listener` for diagnostics. Start SITL and the DDS Agent before these nodes. The ESKF writes `eskf_vs_px4.csv` in its current directory, overwriting that name on each run. End-to-end setup commands have not yet been verified on a clean machine.
